@@ -1,4 +1,4 @@
-let tamanho = prompt('Com quantas cartas você deseja jogar?');
+let tamanho;
 let vetorImagem = [
     'bobrossparrot',
     'explodyparrot',
@@ -10,17 +10,22 @@ let vetorImagem = [
 ];
 let clickBooleano = false;
 let primeiraCarta;
-let cliques = 0;
-let cliquesdois = 0;
-let comparador = 0;
-
-while(tamanho < 4 || tamanho > 14 || tamanho%2 != 0) {
-    tamanho = prompt('Quantidade inválida, insira uma quantidade válida de cartas');
-}
+let cliques;
+let cliquesdois;
+let comparador;
 
 function adicionaCartas() {
     let container = document.querySelector('.container');
     let vetorCartas = [];
+
+    cliques = 0;
+    cliquesdois = 0;
+    comparador = 0;
+    tamanho = prompt('Com quantas cartas você deseja jogar?');
+
+    while(tamanho < 4 || tamanho > 14 || tamanho%2 != 0) {
+        tamanho = prompt('Quantidade inválida, insira uma quantidade válida de cartas');
+    }
 
     for(let i = 0; i < tamanho; i++) {
         let verso = document.createElement('img');
@@ -48,7 +53,6 @@ function adicionaCartas() {
 
 function viraCarta(carta) {
     cliquesdois++; 
-
     if(cliquesdois > 2) {
         return;
     } // não mexer
@@ -56,7 +60,6 @@ function viraCarta(carta) {
     carta.classList.add('virar');
     carta.removeAttribute('onClick');
     cliques++; 
-
     if(clickBooleano) {
         if(primeiraCarta.children[1].getAttribute('src') === carta.children[1].getAttribute('src')) {
             carta.removeAttribute('onClick');
@@ -64,7 +67,16 @@ function viraCarta(carta) {
             comparador++;
             if(comparador === parseInt(tamanho/2)) {
                 setTimeout(() => {
-                    alert(`Você ganhou em ${cliques} jogadas! `);
+                    alert(`Você ganhou em ${cliques} jogadas! `);                    
+                    let jogarDeNovo;
+                    while(jogarDeNovo !== 'sim' && jogarDeNovo !== 'não') {
+                        jogarDeNovo = prompt('Quer jogar de novo?');
+                    }
+
+                    if(jogarDeNovo === 'sim') {
+                        reiniciaJogo();
+                        adicionaCartas();
+                    }
                 }, 1000);
             }
 
@@ -84,6 +96,13 @@ function viraCarta(carta) {
         clickBooleano = true;
         primeiraCarta =  carta;
         console.log(primeiraCarta);
+    }
+}
+
+function reiniciaJogo() {
+    let container = document.querySelector('.container');
+    for(let i = 0; i < tamanho; i++) {
+        container.removeChild(container.children[0]);
     }
 }
 
