@@ -33,22 +33,39 @@ h1 {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    perspective: 1000px;
 }
 
-.card {
+.carta {
     background: #A7E9AF;
     border: 1px solid #99CEA8;
     border-radius: 5px;
     width: 117px;
     height: 146px;
     margin: 20px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: .5s;
+}
+
+.frente, .verso {
+    position: absolute;
+    margin: 23px 8.5px;
+    backface-visibility: hidden;
+}
+
+.verso {
+    transform: rotateY(180deg);
+}
+
+.carta.virar {
+    transform: rotateY(180deg);
 }
 
 @media (max-width: 635px) {
     .container {
         flex-direction: column;
         align-items: center;
-        flex-wrap: wrap;
     }
 
     h1 {
